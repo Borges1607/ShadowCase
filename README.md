@@ -51,7 +51,8 @@ O projeto encontra-se na fase de prototipação e planejamento da implementaçã
 * [x] Definição da ideia
 * [x] Criação do conceito visual
 * [x] Protótipo inicial
-* [ ] Definição da arquitetura
+* [x] Definição da arquitetura
+* [x] Esqueleto do projeto
 * [ ] Desenvolvimento do front-end
 * [ ] Desenvolvimento do back-end
 * [ ] Implementação do banco de dados

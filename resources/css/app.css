@@ -1,0 +1,12 @@
+/*
+ * Estilos globais.
+ *
+ * O grosso do styling vem do MUI (CssBaseline + theme.ts). Este arquivo é
+ * apenas para regras que não cabem no sistema de temas.
+ */
+
+html,
+body,
+#app {
+    height: 100%;
+}
