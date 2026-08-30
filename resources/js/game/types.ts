@@ -1,9 +1,13 @@
 import type { SvgIconComponent } from '@mui/icons-material';
 
-/** Detetive logado. Hoje vive só no client; vira `User` quando o backend entrar. */
+/**
+ * Detetive logado, guardado na sessão pelo AgentSessionController.
+ * O jogo não usa a tabela de usuários — não há cadastro, só nome + senha da agência.
+ */
 export interface Agent {
     name: string;
-    badgeNumber: string;
+    /** Distintivo sorteado no login, ex.: "AG-4821". */
+    badge: string;
 }
 
 export type Difficulty = 'FÁCIL' | 'MÉDIO' | 'DIFÍCIL';
