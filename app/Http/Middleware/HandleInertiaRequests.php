@@ -38,6 +38,9 @@ class HandleInertiaRequests extends Middleware
 
             'appName' => config('app.name'),
 
+            // Detetive logado — lido por todas as telas internas do jogo.
+            'agent' => fn () => $request->session()->get('agent'),
+
             'auth' => [
                 'user' => $request->user()?->only('id', 'name', 'email', 'email_verified_at'),
             ],

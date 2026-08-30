@@ -1,4 +1,6 @@
-import type { Page, PageProps as InertiaPageProps } from '@inertiajs/core';
+import type { Page } from '@inertiajs/core';
+
+import type { Agent } from '@/game/types';
 
 export interface User {
     id: number;
@@ -7,9 +9,18 @@ export interface User {
     email_verified_at: string | null;
 }
 
-/** Props compartilhadas por HandleInertiaRequests::share(). */
-export interface SharedProps extends InertiaPageProps {
+/**
+ * Props compartilhadas por HandleInertiaRequests::share().
+ *
+ * Não estende `PageProps` do Inertia de propósito: global.d.ts faz o caminho
+ * inverso (`PageProps extends SharedProps`), e herdar nos dois sentidos criaria
+ * um ciclo que o TypeScript resolve como `{}` — deixando `usePage().props` sem
+ * tipagem alguma.
+ */
+export interface SharedProps {
     appName: string;
+    /** Detetive na sessão, ou null antes do login. */
+    agent: Agent | null;
     auth: {
         user: User | null;
     };
