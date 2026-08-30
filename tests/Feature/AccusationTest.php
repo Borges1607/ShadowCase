@@ -147,3 +147,49 @@ it('recomeçar apaga progresso, estado dos puzzles e veredicto', function () {
         ->and(session('progress.case-01'))->toBeNull()
         ->and(session('progress_state.case-01'))->toBeNull();
 });
+
+// ─── Textos do desfecho ──────────────────────────────────────────────────────
+
+it('entrega o epílogo de vitória com o placar do caso', function () {
+    $this->withSession(accusationSession(enoughProgress(), ['suspect' => 's1', 'correct' => true]))
+        ->get('/caso/case-01/veredicto')
+        ->assertInertia(fn (AssertableInertia $page) => $page
+            ->where('caseNumber', '001')
+            ->where('totalChallenges', 6)
+            ->has('epilogue.lead')
+            ->has('epilogue.note')
+        );
+});
+
+it('entrega o epílogo de derrota', function () {
+    $this->withSession(accusationSession(enoughProgress(), ['suspect' => 's2', 'correct' => false]))
+        ->get('/caso/case-01/veredicto')
+        ->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('defeat')
+            ->where('epilogue.note', 'A Agência Sombra retirou sua licença. O verdadeiro culpado ainda está em liberdade.')
+        );
+});
+
+it('não vaza o nome do culpado antes da acusação', function () {
+    // O dossiê e a acusação são as duas telas anteriores ao veredicto.
+    foreach (['/caso/case-01', '/caso/case-01/acusacao'] as $url) {
+        $this->withSession(accusationSession(enoughProgress()))
+            ->get($url)
+            ->assertDontSee('Lisboa', escape: false)
+            ->assertDontSee('Olho da Serpente', escape: false);
+    }
+});
+
+it('concorda o placar do epílogo com a quantidade de desafios', function () {
+    $this->withSession(accusationSession(enoughProgress(), ['suspect' => 's1', 'correct' => true]))
+        ->get('/caso/case-01/veredicto')
+        ->assertInertia(fn (AssertableInertia $page) => $page
+            ->where('epilogue.note', '4 de 6 desafios resolvidos foram essenciais para o veredicto.')
+        );
+
+    $this->withSession(accusationSession(['cipher'], ['suspect' => 's1', 'correct' => true]))
+        ->get('/caso/case-01/veredicto')
+        ->assertInertia(fn (AssertableInertia $page) => $page
+            ->where('epilogue.note', '1 de 6 desafio resolvido foi essencial para o veredicto.')
+        );
+});

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Game\Challenges;
+use App\Game\Epilogue;
 use App\Game\Suspects;
 use App\Http\Controllers\Concerns\GuardsCases;
 use App\Support\CaseProgress;
@@ -31,11 +33,19 @@ class VerdictController extends Controller
             return redirect()->route('cases.show', ['case' => $case]);
         }
 
+        $completed = count(CaseProgress::completed($case));
+        $total = Challenges::count();
+
         return Inertia::render($verdict['correct'] ? 'victory' : 'defeat', [
             'caseId' => $case,
+            'caseNumber' => '001',
             'accused' => Suspects::find($verdict['suspect'])?->toArray(),
             'culprit' => Suspects::culprit()->toArray(),
-            'completedCount' => count(CaseProgress::completed($case)),
+            'epilogue' => $verdict['correct']
+                ? Epilogue::victory($completed, $total)
+                : Epilogue::defeat(),
+            'completedCount' => $completed,
+            'totalChallenges' => $total,
         ]);
     }
 

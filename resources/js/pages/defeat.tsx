@@ -1,35 +1,37 @@
-import { Head, router } from '@inertiajs/react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import { Head, router, usePage } from '@inertiajs/react';
 
-import NoirButton from '@/components/ui/NoirButton';
+import VerdictLayout from '@/components/game/VerdictLayout';
+import { IconClose } from '@/game/icons';
 import type { Suspect } from '@/game/types';
-import { display } from '@/theme/styles';
-import { amber } from '@/theme/tokens';
 
 export interface VerdictProps {
     caseId: string;
+    caseNumber: string;
     accused: Suspect | null;
     culprit: Suspect;
+    epilogue: { lead: string; note: string };
     completedCount: number;
+    totalChallenges: number;
 }
 
-/** Placeholder — a tela de desfecho entra aqui na proxima etapa. */
-export default function Verdict({ caseId, accused, culprit }: VerdictProps) {
+/** Desfecho da acusação errada: o culpado embarca e a licença vai junto. */
+export default function Defeat({ caseId, epilogue }: VerdictProps) {
+    const { agent } = usePage().props;
+
     return (
         <>
-            <Head title="Desfecho" />
-            <Box sx={{ minHeight: '100vh', display: 'grid', placeItems: 'center', gap: 2, p: 3 }}>
-                <Typography sx={display(30, amber[100])}>Acusado: {accused?.name}</Typography>
-                <Typography sx={display(20, amber[400])}>Culpado: {culprit.name}</Typography>
-                <NoirButton
-                    tone="outline"
-                    scale="sm"
-                    onClick={() => router.delete(`/caso/${caseId}/veredicto`)}
-                >
-                    Recomecar
-                </NoirButton>
-            </Box>
+            <Head title="Acusação Incorreta" />
+
+            <VerdictLayout
+                tone="failure"
+                Icon={IconClose}
+                eyebrow="Acusação Incorreta"
+                title="Engano Fatal,"
+                subject={`Agente ${agent?.name}`}
+                epilogue={epilogue}
+                actionLabel="Tentar Novamente"
+                onRestart={() => router.delete(`/caso/${caseId}/veredicto`)}
+            />
         </>
     );
 }

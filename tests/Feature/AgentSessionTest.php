@@ -67,3 +67,15 @@ it('encerra a sessão do agente', function () {
 
     expect(session()->has('agent'))->toBeFalse();
 });
+
+it('leva o progresso do caso embora junto com a sessão', function () {
+    $this->withSession([
+        'agent' => ['name' => 'Maria', 'badge' => 'AG-1234'],
+        'progress' => ['case-01' => ['cipher', 'morse']],
+        'verdict' => ['case-01' => ['suspect' => 's1', 'correct' => true]],
+    ])->post('/sair')->assertRedirect('/');
+
+    // Sem conta, o progresso é da sessão: o próximo agente começa do zero.
+    expect(session('progress.case-01'))->toBeNull()
+        ->and(session('verdict.case-01'))->toBeNull();
+});
