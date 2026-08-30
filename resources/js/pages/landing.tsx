@@ -9,17 +9,20 @@ import LandingFooter from '@/components/landing/LandingFooter';
 import LandingHero from '@/components/landing/LandingHero';
 import LandingHowItWorks from '@/components/landing/LandingHowItWorks';
 import LandingNav from '@/components/landing/LandingNav';
+import type { ChallengeSummary } from '@/game/types';
 
 export interface LandingProps {
     /** Rota de acesso do agente — o único caminho para dentro do jogo. */
     loginUrl: string;
+    /** Títulos dos desafios, vindos de AppGameChallenges. */
+    challenges: ChallengeSummary[];
 }
 
 /**
  * Vitrine pública da Agência Sombra: apresenta o jogo, os tipos de desafio e os
  * casos, e conduz até a tela de acesso.
  */
-export default function Landing({ loginUrl }: LandingProps) {
+export default function Landing({ loginUrl, challenges }: LandingProps) {
     const scrollToCases = () => {
         document.getElementById('casos')?.scrollIntoView({ behavior: 'smooth' });
     };
@@ -34,7 +37,7 @@ export default function Landing({ loginUrl }: LandingProps) {
                 <LandingAbout />
                 <LandingChallengePreview />
                 <LandingHowItWorks />
-                <LandingCases startHref={loginUrl} />
+                <LandingCases startHref={loginUrl} challenges={challenges} />
                 <LandingCTA startHref={loginUrl} />
                 <LandingFooter />
             </Box>

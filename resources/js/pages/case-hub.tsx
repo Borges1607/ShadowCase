@@ -10,26 +10,28 @@ import SuspectsPanel from '@/components/game/SuspectsPanel';
 import TopBar from '@/components/game/TopBar';
 import BackLink from '@/components/ui/BackLink';
 import NoirButton from '@/components/ui/NoirButton';
-import { CASES, CHALLENGES, SUSPECTS } from '@/game/data';
+import { CASES, SUSPECTS } from '@/game/data';
 import { IconAward, IconShield } from '@/game/icons';
+import type { ChallengeInfo } from '@/game/types';
 import { body, display, mono, monoRaw } from '@/theme/styles';
 import { amber } from '@/theme/tokens';
 
 export interface CaseHubProps {
     caseId: string;
-    completedChallenges: string[];
+    /** Fichas dos desafios; as pistas vêm preenchidas só nos já concluídos. */
+    challenges: ChallengeInfo[];
     /** Mínimo de desafios resolvidos para liberar a acusação. */
     challengesToAccuse: number;
 }
 
 /** Dossiê do caso: onde o detetive escolhe o próximo desafio e pesa o que já tem. */
-export default function CaseHub({ caseId, completedChallenges, challengesToAccuse }: CaseHubProps) {
+export default function CaseHub({ caseId, challenges, challengesToAccuse }: CaseHubProps) {
     const { agent } = usePage().props;
     const detectiveCase = CASES.find((item) => item.id === caseId);
 
-    const done = new Set(completedChallenges);
-    const clues = CHALLENGES.filter((challenge) => done.has(challenge.id)).map((c) => c.clue);
-    const canAccuse = done.size >= challengesToAccuse;
+    const doneCount = challenges.filter((challenge) => challenge.completed).length;
+    const clues = challenges.flatMap((challenge) => (challenge.clue ? [challenge.clue] : []));
+    const canAccuse = doneCount >= challengesToAccuse;
 
     return (
         <>
@@ -66,15 +68,15 @@ export default function CaseHub({ caseId, completedChallenges, challengesToAccus
                         <Typography sx={body(16, alpha(amber[200], 0.5))}>
                             Complete os desafios para coletar pistas e identificar o culpado.{' '}
                             <Box component="span" sx={monoRaw(12, alpha(amber[700], 0.6))}>
-                                {done.size}/{CHALLENGES.length} concluídos
+                                {doneCount}/{challenges.length} concluídos
                             </Box>
                         </Typography>
                     </Box>
 
                     <Box sx={{ mb: 5 }}>
                         <ProgressPanel
-                            done={done.size}
-                            total={CHALLENGES.length}
+                            done={doneCount}
+                            total={challenges.length}
                             requiredToAccuse={canAccuse ? null : challengesToAccuse}
                         />
                     </Box>
@@ -98,11 +100,11 @@ export default function CaseHub({ caseId, completedChallenges, challengesToAccus
                                     gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)' },
                                 }}
                             >
-                                {CHALLENGES.map((challenge) => (
+                                {challenges.map((challenge) => (
                                     <ChallengeCard
                                         key={challenge.id}
                                         challenge={challenge}
-                                        done={done.has(challenge.id)}
+                                        done={challenge.completed}
                                         href={`/caso/${caseId}/desafio/${challenge.id}`}
                                     />
                                 ))}
@@ -137,7 +139,7 @@ export default function CaseHub({ caseId, completedChallenges, challengesToAccus
                                     startIcon={<IconAward sx={{ fontSize: 14 }} />}
                                     sx={{ py: 2 }}
                                 >
-                                    Bloqueado ({done.size}/{challengesToAccuse})
+                                    Bloqueado ({doneCount}/{challengesToAccuse})
                                 </NoirButton>
                             )}
                         </Box>

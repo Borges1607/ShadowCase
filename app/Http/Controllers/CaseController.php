@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Game\Challenges;
+use App\Http\Controllers\Concerns\GuardsCases;
 use App\Support\CaseProgress;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
@@ -9,6 +11,8 @@ use Inertia\Response;
 
 class CaseController extends Controller
 {
+    use GuardsCases;
+
     /**
      * Dossiê do caso: progresso, desafios, pistas reveladas e suspeitos.
      */
@@ -18,29 +22,13 @@ class CaseController extends Controller
             return $redirect;
         }
 
+        $completed = CaseProgress::completed($case);
+
         return Inertia::render('case-hub', [
             'caseId' => $case,
-            'completedChallenges' => CaseProgress::completed($case),
+            // As pistas só acompanham os desafios já concluídos.
+            'challenges' => Challenges::listing($completed),
             'challengesToAccuse' => (int) config('game.challenges_to_accuse'),
         ]);
-    }
-
-    /**
-     * Recusa casos que não existem (404) e desvia os que existem mas ainda não
-     * abriram — os dois merecem respostas diferentes.
-     *
-     * Devolve null quando o caso pode ser jogado.
-     */
-    protected function guardCase(string $case): ?RedirectResponse
-    {
-        abort_unless(in_array($case, (array) config('game.cases'), true), 404);
-
-        if ($case !== config('game.active_case')) {
-            return redirect()
-                ->route('dashboard')
-                ->with('error', 'Este caso ainda está em desenvolvimento.');
-        }
-
-        return null;
     }
 }

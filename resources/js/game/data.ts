@@ -1,67 +1,11 @@
-import { IconBook, IconGrid, IconHash, IconKey, IconMic, IconRadio } from './icons';
-import type { ChallengeInfo, DetectiveCase, Suspect } from './types';
+import type { DetectiveCase, Suspect } from './types';
 
 /**
- * Conteúdo narrativo do jogo.
+ * Conteúdo de apresentação do jogo.
  *
- * Fase de frontend: mora aqui para iterar rápido. Quando o backend entrar, isto
- * migra para o banco e chega nas telas como props do Inertia — os tipos em
- * ./types.ts já descrevem o formato desse contrato.
+ * Só o que não é segredo: vitrine dos casos e fichas dos suspeitos. Pistas,
+ * respostas e explicações vivem em app/Game/ e chegam pelas props do Inertia.
  */
-
-export const CHALLENGES: ChallengeInfo[] = [
-    {
-        id: 'cipher',
-        title: 'Cifra de César',
-        subtitle: 'Decodifique a mensagem criptografada',
-        difficulty: 'FÁCIL',
-        clue: 'A chave está escondida no Quarto 7 do Hotel Majestic, próximo ao porto.',
-        Icon: IconKey,
-    },
-    {
-        id: 'morse',
-        title: 'Código Morse',
-        subtitle: 'Interprete os sinais telegráficos interceptados',
-        difficulty: 'FÁCIL',
-        clue: 'O crime ocorreu à meia-noite — o relógio às 23h47 era uma isca.',
-        Icon: IconRadio,
-    },
-    {
-        id: 'safe',
-        title: 'Cofre Numérico',
-        subtitle: 'Descubra a combinação do cofre secreto',
-        difficulty: 'MÉDIO',
-        clue: 'O curador sabia a combinação e a revelou a um cúmplice.',
-        Icon: IconHash,
-    },
-    {
-        id: 'testimony',
-        title: 'Depoimento Mentiroso',
-        subtitle: 'Encontre a contradição nas declarações',
-        difficulty: 'MÉDIO',
-        clue: 'A Condessa esteve na Sala do Cofre — as pegadas de lama provam.',
-        Icon: IconMic,
-    },
-    {
-        id: 'anagram',
-        title: 'Anagrama Cifrado',
-        subtitle: 'Reorganize as letras secretas',
-        difficulty: 'DIFÍCIL',
-        clue: 'Três palavras-chave: CHAVE + QUARTO + PROVA.',
-        Icon: IconBook,
-    },
-    {
-        id: 'map',
-        title: 'Mapa do Crime',
-        subtitle: 'Identifique o local exato do roubo',
-        difficulty: 'DIFÍCIL',
-        clue: 'O diamante saiu pela janela leste da Sala do Cofre.',
-        Icon: IconGrid,
-    },
-];
-
-/** Mínimo de desafios concluídos para liberar a acusação. */
-export const CHALLENGES_TO_ACCUSE = 4;
 
 export const SUSPECTS: Suspect[] = [
     {

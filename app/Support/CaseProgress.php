@@ -13,6 +13,9 @@ final class CaseProgress
 {
     private const SESSION_KEY = 'progress';
 
+    /** Estado interno de puzzles de vários passos (o anagrama, hoje). */
+    private const STATE_KEY = 'progress_state';
+
     /** IDs dos desafios já concluídos no caso. */
     public static function completed(string $caseId): array
     {
@@ -35,9 +38,21 @@ final class CaseProgress
         }
     }
 
+    /** Progresso parcial dentro de um desafio, entre uma tentativa e a próxima. */
+    public static function challengeState(string $caseId, string $challengeId): array
+    {
+        return (array) session()->get(self::STATE_KEY.'.'.$caseId.'.'.$challengeId, []);
+    }
+
+    public static function setChallengeState(string $caseId, string $challengeId, array $state): void
+    {
+        session()->put(self::STATE_KEY.'.'.$caseId.'.'.$challengeId, $state);
+    }
+
     /** Zera o caso — usado ao recomeçar depois do veredicto. */
     public static function reset(string $caseId): void
     {
         session()->forget(self::SESSION_KEY.'.'.$caseId);
+        session()->forget(self::STATE_KEY.'.'.$caseId);
     }
 }

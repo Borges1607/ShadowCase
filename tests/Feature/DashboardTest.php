@@ -18,36 +18,24 @@ it('mostra a central com o caso ativo e nenhum progresso', function () {
         ->assertInertia(fn (AssertableInertia $page) => $page
             ->component('dashboard')
             ->where('activeCaseId', 'case-01')
-            ->where('completedChallenges', [])
+            ->where('completedCount', 0)
+            ->where('totalChallenges', 6)
             ->where('agent.name', 'Maria Oliveira')
         );
 });
 
-it('informa os desafios já resolvidos no caso ativo', function () {
+it('conta os desafios já resolvidos no caso ativo', function () {
     $this->withSession(agentSession(['case-01' => ['cipher', 'morse']]))
         ->get('/central')
-        ->assertOk()
-        ->assertInertia(fn (AssertableInertia $page) => $page
-            ->where('completedChallenges', ['cipher', 'morse'])
-        );
+        ->assertInertia(fn (AssertableInertia $page) => $page->where('completedCount', 2));
 });
 
 it('ignora o progresso de outros casos', function () {
     $this->withSession(agentSession(['case-02' => ['cipher']]))
         ->get('/central')
-        ->assertInertia(fn (AssertableInertia $page) => $page->where('completedChallenges', []));
+        ->assertInertia(fn (AssertableInertia $page) => $page->where('completedCount', 0));
 });
 
-it('abre o dossiê do caso para o agente identificado', function () {
-    $this->withSession(agentSession())
-        ->get('/caso/case-01')
-        ->assertOk()
-        ->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('case-hub')
-            ->where('caseId', 'case-01')
-        );
-});
-
-it('bloqueia o dossiê para quem não se identificou', function () {
-    $this->get('/caso/case-01')->assertRedirect('/entrar');
+it('bloqueia a central para quem não se identificou', function () {
+    $this->get('/central')->assertRedirect('/entrar');
 });

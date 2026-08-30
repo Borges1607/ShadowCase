@@ -1,6 +1,6 @@
 import type { Page } from '@inertiajs/core';
 
-import type { Agent } from '@/game/types';
+import type { Agent, PuzzleAttempt } from '@/game/types';
 
 export interface User {
     id: number;
@@ -27,6 +27,8 @@ export interface SharedProps {
     flash: {
         success: string | null;
         error: string | null;
+        /** Resultado da última tentativa em um puzzle. */
+        attempt: PuzzleAttempt | null;
     };
 }
 

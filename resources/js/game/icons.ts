@@ -20,6 +20,7 @@ export { default as IconChevronUp } from '@mui/icons-material/KeyboardArrowUp';
 export { default as IconChevronDown } from '@mui/icons-material/KeyboardArrowDown';
 export { default as IconFile } from '@mui/icons-material/DescriptionOutlined';
 export { default as IconKey } from '@mui/icons-material/VpnKeyOutlined';
+import IconKey from '@mui/icons-material/VpnKeyOutlined';
 export { default as IconUsers } from '@mui/icons-material/GroupsOutlined';
 export { default as IconShield } from '@mui/icons-material/ShieldOutlined';
 export { default as IconCheck } from '@mui/icons-material/CheckCircleOutlined';
@@ -28,11 +29,30 @@ export { default as IconAward } from '@mui/icons-material/MilitaryTechOutlined';
 export { default as IconLogin } from '@mui/icons-material/Login';
 export { default as IconRestart } from '@mui/icons-material/RestartAlt';
 export { default as IconRadio } from '@mui/icons-material/SettingsInputAntennaOutlined';
+import IconRadio from '@mui/icons-material/SettingsInputAntennaOutlined';
 export { default as IconGrid } from '@mui/icons-material/GridOnOutlined';
+import IconGrid from '@mui/icons-material/GridOnOutlined';
 export { default as IconBook } from '@mui/icons-material/MenuBookOutlined';
+import IconBook from '@mui/icons-material/MenuBookOutlined';
 export { default as IconMic } from '@mui/icons-material/MicNoneOutlined';
+import IconMic from '@mui/icons-material/MicNoneOutlined';
 export { default as IconHash } from '@mui/icons-material/TagOutlined';
+import IconHash from '@mui/icons-material/TagOutlined';
 export { default as IconZap } from '@mui/icons-material/BoltOutlined';
 export { default as IconArrowDown } from '@mui/icons-material/ArrowDownward';
 export { default as IconStar } from '@mui/icons-material/StarBorderOutlined';
 export { default as IconPlay } from '@mui/icons-material/PlayArrow';
+
+/**
+ * Ícone de cada desafio.
+ *
+ * Fica no cliente porque ícone é componente React — o servidor manda só o `id`.
+ */
+export const CHALLENGE_ICONS: Record<string, typeof IconKey> = {
+    cipher: IconKey,
+    morse: IconRadio,
+    safe: IconHash,
+    testimony: IconMic,
+    anagram: IconBook,
+    map: IconGrid,
+};

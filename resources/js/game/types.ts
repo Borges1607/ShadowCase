@@ -1,5 +1,3 @@
-import type { SvgIconComponent } from '@mui/icons-material';
-
 /**
  * Detetive logado, guardado na sessão pelo AgentSessionController.
  * O jogo não usa a tabela de usuários — não há cadastro, só nome + senha da agência.
@@ -12,15 +10,30 @@ export interface Agent {
 
 export type Difficulty = 'FÁCIL' | 'MÉDIO' | 'DIFÍCIL';
 
-/** Metadados de um desafio — o puzzle em si mora em components/challenges. */
+/**
+ * Ficha de um desafio, vinda de App\Game\Challenges.
+ *
+ * `clue` chega null enquanto o desafio não foi resolvido — a pista é o prêmio,
+ * e o servidor não a entrega antes da hora.
+ */
 export interface ChallengeInfo {
     id: string;
     title: string;
     subtitle: string;
     difficulty: Difficulty;
-    /** Pista revelada ao concluir. */
-    clue: string;
-    Icon: SvgIconComponent;
+    completed: boolean;
+    clue: string | null;
+}
+
+/** Resultado de uma tentativa, devolvido por ChallengeController::check(). */
+export interface PuzzleAttempt {
+    correct: boolean;
+    /** Verdadeiro só quando o desafio inteiro terminou (ver o anagrama). */
+    solved: boolean;
+    /** Texto de retorno, como a explicação de um depoimento. */
+    detail: string | null;
+    /** A que item da tela a resposta se refere, quando há vários. */
+    target: string | null;
 }
 
 export interface Suspect {
@@ -55,4 +68,10 @@ export interface DetectiveCase {
     image: string;
     /** Evidências mostradas antes de aceitar o caso. */
     cluePreview: string[];
+}
+
+/** Ficha mínima usada na vitrine pública, sem nada que estrague o jogo. */
+export interface ChallengeSummary {
+    id: string;
+    title: string;
 }
