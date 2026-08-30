@@ -27,4 +27,16 @@ return [
 
     'show_password_hint' => (bool) env('AGENCY_PASSWORD_HINT', true),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Caso jogável
+    |--------------------------------------------------------------------------
+    |
+    | Dos três casos do dossiê, só o primeiro está implementado. Os outros
+    | aparecem bloqueados na vitrine e na central de operações.
+    |
+    */
+
+    'active_case' => 'case-01',
+
 ];

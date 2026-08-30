@@ -40,7 +40,10 @@ export interface DetectiveCase {
     number: string;
     title: string;
     tagline: string;
+    /** Status na vitrine pública — o que o visitante vê antes de entrar. */
     status: CaseStatus;
+    /** Status no painel do detetive — a mesma investigação vista de dentro. */
+    agentStatus: CaseStatus;
     date: string;
     location: string;
     difficulty: string;

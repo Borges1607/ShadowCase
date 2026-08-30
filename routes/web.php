@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AgentSessionController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -12,6 +13,10 @@ Route::post('/entrar', [AgentSessionController::class, 'store'])->name('login.st
 Route::post('/sair', [AgentSessionController::class, 'destroy'])->name('logout');
 
 Route::middleware('agent')->group(function (): void {
-    // Placeholder: substituído pela central de operações do detetive.
-    Route::get('/central', fn () => Inertia::render('dashboard'))->name('dashboard');
+    Route::get('/central', DashboardController::class)->name('dashboard');
+
+    // Placeholder: substituído pelo dossiê do caso.
+    Route::get('/caso/{case}', fn (string $case) => Inertia::render('case-hub', [
+        'caseId' => $case,
+    ]))->name('cases.show');
 });

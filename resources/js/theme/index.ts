@@ -89,6 +89,20 @@ const theme = createTheme({
         MuiLink: {
             defaultProps: { underline: 'none' },
         },
+        MuiTooltip: {
+            styleOverrides: {
+                tooltip: {
+                    borderRadius: 0,
+                    backgroundColor: noir.card,
+                    border: `1px solid ${alpha(amber[900], 0.4)}`,
+                    color: alpha(amber[200], 0.8),
+                    fontFamily: fonts.mono,
+                    fontSize: 9,
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                },
+            },
+        },
     },
 });
 
