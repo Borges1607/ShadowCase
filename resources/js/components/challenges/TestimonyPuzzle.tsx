@@ -3,7 +3,6 @@ import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
 import { alpha } from '@mui/material/styles';
 
-import { SUSPECTS } from '@/game/data';
 import { body, display, mono, typewriter } from '@/theme/styles';
 import { amber, emerald, noir, red } from '@/theme/tokens';
 
@@ -21,7 +20,7 @@ export default function TestimonyPuzzle({
     submit,
     processing,
 }: PuzzleProps<TestimonyPayload>) {
-    const suspect = SUSPECTS.find((item) => item.id === payload.suspectId);
+    const suspect = payload.suspect;
     const answered =
         attempt?.target !== null && attempt?.target !== undefined ? Number(attempt.target) : null;
 

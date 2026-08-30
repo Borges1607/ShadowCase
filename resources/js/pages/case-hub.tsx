@@ -10,9 +10,9 @@ import SuspectsPanel from '@/components/game/SuspectsPanel';
 import TopBar from '@/components/game/TopBar';
 import BackLink from '@/components/ui/BackLink';
 import NoirButton from '@/components/ui/NoirButton';
-import { CASES, SUSPECTS } from '@/game/data';
+import { CASES } from '@/game/data';
 import { IconAward, IconShield } from '@/game/icons';
-import type { ChallengeInfo } from '@/game/types';
+import type { ChallengeInfo, Suspect } from '@/game/types';
 import { body, display, mono, monoRaw } from '@/theme/styles';
 import { amber } from '@/theme/tokens';
 
@@ -20,12 +20,19 @@ export interface CaseHubProps {
     caseId: string;
     /** Fichas dos desafios; as pistas vêm preenchidas só nos já concluídos. */
     challenges: ChallengeInfo[];
+    /** Fichas dos suspeitos, sem indício de culpa. */
+    suspects: Suspect[];
     /** Mínimo de desafios resolvidos para liberar a acusação. */
     challengesToAccuse: number;
 }
 
 /** Dossiê do caso: onde o detetive escolhe o próximo desafio e pesa o que já tem. */
-export default function CaseHub({ caseId, challenges, challengesToAccuse }: CaseHubProps) {
+export default function CaseHub({
+    caseId,
+    challenges,
+    suspects,
+    challengesToAccuse,
+}: CaseHubProps) {
     const { agent } = usePage().props;
     const detectiveCase = CASES.find((item) => item.id === caseId);
 
@@ -113,7 +120,7 @@ export default function CaseHub({ caseId, challenges, challengesToAccuse }: Case
 
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
                             <CluesPanel clues={clues} />
-                            <SuspectsPanel suspects={SUSPECTS} />
+                            <SuspectsPanel suspects={suspects} />
 
                             {canAccuse ? (
                                 <NoirButton

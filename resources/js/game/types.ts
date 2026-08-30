@@ -36,13 +36,18 @@ export interface PuzzleAttempt {
     target: string | null;
 }
 
+/**
+ * Ficha de um suspeito, vinda de App\Game\Suspects.
+ *
+ * Não existe campo de culpa: quem roubou o diamante é decidido no servidor, e
+ * só aparece na tela de desfecho — depois que a acusação já foi feita.
+ */
 export interface Suspect {
     id: string;
     name: string;
     age: number;
     occupation: string;
     photo: string;
-    guilty: boolean;
 }
 
 export type CaseStatus = 'DISPONÍVEL' | 'EM BREVE' | 'ABERTO' | 'FRIO' | 'RESOLVIDO';

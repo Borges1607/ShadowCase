@@ -4,6 +4,7 @@ namespace App\Game\Puzzles;
 
 use App\Game\Puzzle;
 use App\Game\PuzzleAttempt;
+use App\Game\Suspects;
 
 /**
  * Depoimento mentiroso.
@@ -41,7 +42,8 @@ final class TestimonyPuzzle implements Puzzle
     public function payload(): array
     {
         return [
-            'suspectId' => self::SUSPECT_ID,
+            // A ficha vem montada: o cliente não tem mais a lista de suspeitos.
+            'suspect' => Suspects::find(self::SUSPECT_ID)?->toArray(),
             'intro' => self::INTRO,
             'interrogatedAt' => self::INTERROGATED_AT,
             'statements' => array_map(

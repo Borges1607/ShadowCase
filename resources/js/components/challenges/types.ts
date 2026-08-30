@@ -1,6 +1,6 @@
 import type { RequestPayload } from '@inertiajs/core';
 
-import type { PuzzleAttempt } from '@/game/types';
+import type { PuzzleAttempt, Suspect } from '@/game/types';
 
 /**
  * Contrato entre a tela de desafio e cada puzzle.
@@ -36,7 +36,7 @@ export interface SafePayload {
 }
 
 export interface TestimonyPayload {
-    suspectId: string;
+    suspect: Suspect | null;
     intro: string;
     interrogatedAt: string;
     statements: { id: number; text: string }[];

@@ -71,9 +71,14 @@ it('bloqueia o dossiê para quem não se identificou', function () {
     $this->get('/caso/case-01')->assertRedirect('/entrar');
 });
 
-it('abre a acusação a partir do dossiê', function () {
-    $this->withSession(caseAgentSession())
-        ->get('/caso/case-01/acusacao')
-        ->assertOk()
-        ->assertInertia(fn (AssertableInertia $page) => $page->component('accusation'));
+it('serve as fichas dos suspeitos sem indício de culpa', function () {
+    $response = $this->withSession(caseAgentSession())->get('/caso/case-01');
+
+    $suspects = $response->viewData('page')['props']['suspects'];
+
+    expect($suspects)->toHaveCount(3);
+
+    foreach ($suspects as $suspect) {
+        expect($suspect)->not->toHaveKey('guilty');
+    }
 });

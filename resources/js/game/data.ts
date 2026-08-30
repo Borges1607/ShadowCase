@@ -1,38 +1,11 @@
-import type { DetectiveCase, Suspect } from './types';
+import type { DetectiveCase } from './types';
 
 /**
  * Conteúdo de apresentação do jogo.
  *
- * Só o que não é segredo: vitrine dos casos e fichas dos suspeitos. Pistas,
- * respostas e explicações vivem em app/Game/ e chegam pelas props do Inertia.
+ * Só o que não é segredo: a vitrine dos casos. Suspeitos, pistas, respostas e
+ * o culpado vivem em app/Game/ e chegam pelas props do Inertia.
  */
-
-export const SUSPECTS: Suspect[] = [
-    {
-        id: 's1',
-        name: "Condessa Vera D'Almeida",
-        age: 42,
-        occupation: 'Socialite',
-        photo: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=400&fit=crop&auto=format',
-        guilty: true,
-    },
-    {
-        id: 's2',
-        name: 'Dr. Augusto Ferreira',
-        age: 55,
-        occupation: 'Curador',
-        photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=300&h=400&fit=crop&auto=format',
-        guilty: false,
-    },
-    {
-        id: 's3',
-        name: 'Raimundo "Ricky" Sousa',
-        age: 31,
-        occupation: 'Segurança',
-        photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop&auto=format',
-        guilty: false,
-    },
-];
 
 export const CASES: DetectiveCase[] = [
     {

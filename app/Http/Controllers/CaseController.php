@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Game\Challenges;
+use App\Game\Suspects;
 use App\Http\Controllers\Concerns\GuardsCases;
 use App\Support\CaseProgress;
 use Illuminate\Http\RedirectResponse;
@@ -28,6 +29,8 @@ class CaseController extends Controller
             'caseId' => $case,
             // As pistas só acompanham os desafios já concluídos.
             'challenges' => Challenges::listing($completed),
+            // Fichas sem qualquer indício de culpa.
+            'suspects' => Suspects::listing(),
             'challengesToAccuse' => (int) config('game.challenges_to_accuse'),
         ]);
     }
