@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import { alpha, styled } from '@mui/material/styles';
 
 import DifficultyBadge from '@/components/ui/DifficultyBadge';
-import { IconCheck } from '@/game/icons';
+import { CHALLENGE_ICONS, IconCheck } from '@/game/icons';
 import type { ChallengeInfo } from '@/game/types';
 import { display, mono } from '@/theme/styles';
 import { amber, emerald, noir } from '@/theme/tokens';
@@ -45,6 +45,8 @@ export interface ChallengeCardProps {
 
 /** Um puzzle na grade do dossiê. Resolvido, troca o dourado pelo verde. */
 export default function ChallengeCard({ challenge, done, href }: ChallengeCardProps) {
+    const Icon = CHALLENGE_ICONS[challenge.id];
+
     return (
         <CardLink href={href} done={done}>
             {done && (
@@ -75,7 +77,7 @@ export default function ChallengeCard({ challenge, done, href }: ChallengeCardPr
                         transition: 'all 200ms',
                     }}
                 >
-                    <challenge.Icon sx={{ fontSize: 14 }} />
+                    {Icon && <Icon sx={{ fontSize: 14 }} />}
                 </Box>
                 <DifficultyBadge difficulty={challenge.difficulty} />
             </Box>

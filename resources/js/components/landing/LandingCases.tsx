@@ -9,8 +9,9 @@ import { alpha } from '@mui/material/styles';
 import NoirButton from '@/components/ui/NoirButton';
 import SectionEyebrow from '@/components/ui/SectionEyebrow';
 import StatusBadge from '@/components/ui/StatusBadge';
-import { CASES, CHALLENGES } from '@/game/data';
+import { CASES } from '@/game/data';
 import {
+    CHALLENGE_ICONS,
     IconChevronRight,
     IconClock,
     IconLock,
@@ -18,10 +19,17 @@ import {
     IconUsers,
     IconZap,
 } from '@/game/icons';
+import type { ChallengeSummary } from '@/game/types';
 import { body, display, mono, monoRaw, typewriter } from '@/theme/styles';
 import { amber, noir } from '@/theme/tokens';
 
-export default function LandingCases({ startHref }: { startHref: string }) {
+export interface LandingCasesProps {
+    startHref: string;
+    /** Só id e título — a vitrine não precisa de mais nada dos desafios. */
+    challenges: ChallengeSummary[];
+}
+
+export default function LandingCases({ startHref, challenges }: LandingCasesProps) {
     const [active, setActive] = useState(0);
     const detectiveCase = CASES[active];
 
@@ -274,27 +282,36 @@ export default function LandingCases({ startHref }: { startHref: string }) {
                                     Desafios Incluídos:
                                 </Typography>
                                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
-                                    {CHALLENGES.map((challenge) => (
-                                        <Box
-                                            key={challenge.id}
-                                            sx={{
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: 0.5,
-                                                border: 1,
-                                                borderColor: alpha(amber[900], 0.25),
-                                                px: 1,
-                                                py: 0.5,
-                                            }}
-                                        >
-                                            <challenge.Icon
-                                                sx={{ fontSize: 11, color: alpha(amber[700], 0.5) }}
-                                            />
-                                            <Typography sx={monoRaw(8, alpha(amber[700], 0.5))}>
-                                                {challenge.title}
-                                            </Typography>
-                                        </Box>
-                                    ))}
+                                    {challenges.map((challenge) => {
+                                        const Icon = CHALLENGE_ICONS[challenge.id];
+
+                                        return (
+                                            <Box
+                                                key={challenge.id}
+                                                sx={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: 0.5,
+                                                    border: 1,
+                                                    borderColor: alpha(amber[900], 0.25),
+                                                    px: 1,
+                                                    py: 0.5,
+                                                }}
+                                            >
+                                                {Icon && (
+                                                    <Icon
+                                                        sx={{
+                                                            fontSize: 11,
+                                                            color: alpha(amber[700], 0.5),
+                                                        }}
+                                                    />
+                                                )}
+                                                <Typography sx={monoRaw(8, alpha(amber[700], 0.5))}>
+                                                    {challenge.title}
+                                                </Typography>
+                                            </Box>
+                                        );
+                                    })}
                                 </Box>
                             </Box>
                         </>

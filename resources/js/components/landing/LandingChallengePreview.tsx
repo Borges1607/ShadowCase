@@ -16,13 +16,25 @@ interface PuzzlePreview {
     result: string;
 }
 
+/**
+ * Amostras de cada mecânica — todas com conteúdo inventado.
+ *
+ * Esta seção é pública e vem antes do login, então nenhum exemplo pode ser a
+ * resposta real de um puzzle: são palavras do cenário ("museu", "Rio", "dama")
+ * que ensinam a mecânica sem estragar o caso.
+ */
 const PREVIEWS: PuzzlePreview[] = [
-    { Icon: IconKey, label: 'Cifra de César', example: 'SURF → ?', result: 'PROC' },
-    { Icon: IconRadio, label: 'Código Morse', example: '-- . ..', result: 'MEI' },
-    { Icon: IconHash, label: 'Cofre Numérico', example: '[ 1 ][ ? ][ 4 ][ 8 ]', result: '1948' },
+    { Icon: IconKey, label: 'Cifra de César', example: 'PXVHX → ?', result: 'MUSEU' },
+    { Icon: IconRadio, label: 'Código Morse', example: '.-. .. ---', result: 'RIO' },
+    {
+        Icon: IconHash,
+        label: 'Cofre Numérico',
+        example: '[ ? ][ ? ][ ? ][ ? ]',
+        result: '4 dígitos',
+    },
     { Icon: IconMic, label: 'Depoimento', example: '3 declarações', result: 'Encontre a mentira' },
-    { Icon: IconBook, label: 'Anagrama', example: 'V H A C E →', result: 'CHAVE' },
-    { Icon: IconGrid, label: 'Mapa do Crime', example: 'Planta baixa', result: 'Sala do Cofre' },
+    { Icon: IconBook, label: 'Anagrama', example: 'A D A M →', result: 'DAMA' },
+    { Icon: IconGrid, label: 'Mapa do Crime', example: 'Planta baixa', result: '9 ambientes' },
 ];
 
 /**

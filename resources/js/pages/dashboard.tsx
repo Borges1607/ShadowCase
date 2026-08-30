@@ -7,23 +7,29 @@ import AgencyMark from '@/components/game/AgencyMark';
 import AgentIdentity from '@/components/game/AgentIdentity';
 import CaseCard from '@/components/game/CaseCard';
 import TopBar from '@/components/game/TopBar';
-import { CASES, CHALLENGES } from '@/game/data';
+import { CASES } from '@/game/data';
 import { body, display, mono } from '@/theme/styles';
 import { amber } from '@/theme/tokens';
 
 export interface DashboardProps {
     /** Único caso jogável — os demais aparecem bloqueados. */
     activeCaseId: string;
-    /** IDs dos desafios já resolvidos no caso ativo. */
-    completedChallenges: string[];
+    /** Quantos desafios o agente já resolveu no caso ativo. */
+    completedCount: number;
+    /** Total de desafios do caso, vindo de AppGameChallenges. */
+    totalChallenges: number;
 }
 
 /** Central de operações: quem é o agente, como vai o caso e o que há na mesa. */
-export default function Dashboard({ activeCaseId, completedChallenges }: DashboardProps) {
+export default function Dashboard({
+    activeCaseId,
+    completedCount,
+    totalChallenges,
+}: DashboardProps) {
     const { agent } = usePage().props;
 
-    const done = completedChallenges.length;
-    const total = CHALLENGES.length;
+    const done = completedCount;
+    const total = totalChallenges;
 
     const stats = [
         { label: 'Desafios Concluídos', value: `${done}/${total}` },

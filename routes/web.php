@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\AccusationController;
 use App\Http\Controllers\AgentSessionController;
 use App\Http\Controllers\CaseController;
+use App\Http\Controllers\ChallengeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\VerdictController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/', LandingController::class)->name('home');
 
@@ -19,16 +21,15 @@ Route::middleware('agent')->group(function (): void {
     Route::prefix('caso/{case}')->group(function (): void {
         Route::get('/', [CaseController::class, 'show'])->name('cases.show');
 
-        // Placeholder: substituído pela tela de desafio.
-        Route::get('/desafio/{challenge}', fn (string $case, string $challenge) => Inertia::render(
-            'challenge',
-            ['caseId' => $case, 'challengeId' => $challenge],
-        ))->name('challenges.show');
+        Route::get('/desafio/{challenge}', [ChallengeController::class, 'show'])
+            ->name('challenges.show');
+        Route::post('/desafio/{challenge}', [ChallengeController::class, 'check'])
+            ->name('challenges.check');
 
-        // Placeholder: substituído pela acusação final.
-        Route::get('/acusacao', fn (string $case) => Inertia::render(
-            'accusation',
-            ['caseId' => $case],
-        ))->name('accusation.create');
+        Route::get('/acusacao', [AccusationController::class, 'create'])->name('accusation.create');
+        Route::post('/acusacao', [AccusationController::class, 'store'])->name('accusation.store');
+
+        Route::get('/veredicto', [VerdictController::class, 'show'])->name('verdict.show');
+        Route::delete('/veredicto', [VerdictController::class, 'destroy'])->name('verdict.destroy');
     });
 });

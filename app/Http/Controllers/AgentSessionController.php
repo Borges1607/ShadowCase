@@ -58,10 +58,17 @@ class AgentSessionController extends Controller
         return redirect()->intended(route('dashboard'));
     }
 
+    /**
+     * Encerra a sessão.
+     *
+     * Invalida tudo, não só o agente: o progresso não pertence a uma conta —
+     * pertence à sessão. Esquecer só o agente deixaria o próximo detetive
+     * herdando o caso já resolvido pelo anterior.
+     */
     public function destroy(Request $request): RedirectResponse
     {
-        $request->session()->forget('agent');
-        $request->session()->regenerate();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return redirect()->route('home');
     }

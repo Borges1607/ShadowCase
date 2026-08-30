@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Game\Challenges;
 use App\Support\CaseProgress;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -11,8 +12,8 @@ class DashboardController extends Controller
     /**
      * Central de operações do detetive.
      *
-     * O elenco de casos ainda vem de resources/js/game/data.ts; daqui sai só o
-     * que pertence ao agente — o progresso guardado na sessão.
+     * A lista de casos ainda vem de resources/js/game/data.ts; daqui saem o
+     * progresso do agente e a contagem de desafios, que passou a ser do servidor.
      */
     public function __invoke(): Response
     {
@@ -20,7 +21,8 @@ class DashboardController extends Controller
 
         return Inertia::render('dashboard', [
             'activeCaseId' => $activeCase,
-            'completedChallenges' => CaseProgress::completed($activeCase),
+            'completedCount' => count(CaseProgress::completed($activeCase)),
+            'totalChallenges' => Challenges::count(),
         ]);
     }
 }
