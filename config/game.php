@@ -29,14 +29,34 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Caso jogável
+    | Casos
     |--------------------------------------------------------------------------
     |
     | Dos três casos do dossiê, só o primeiro está implementado. Os outros
     | aparecem bloqueados na vitrine e na central de operações.
     |
+    | Aqui ficam apenas os identificadores — o conteúdo narrativo ainda vive em
+    | resources/js/game/data.ts. Esta lista é o que permite ao servidor separar
+    | um caso inexistente (404) de um caso que existe mas ainda não abriu.
+    |
     */
 
+    'cases' => ['case-01', 'case-02', 'case-03'],
+
     'active_case' => 'case-01',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Desafios
+    |--------------------------------------------------------------------------
+    |
+    | Ordem e identificadores dos puzzles do caso ativo, e quantos precisam
+    | estar resolvidos para liberar a acusação final.
+    |
+    */
+
+    'challenges' => ['cipher', 'morse', 'safe', 'testimony', 'anagram', 'map'],
+
+    'challenges_to_accuse' => 4,
 
 ];
