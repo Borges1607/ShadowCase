@@ -2,12 +2,13 @@
 
 use Inertia\Testing\AssertableInertia;
 
-it('renderiza a página inicial via Inertia', function () {
+it('renderiza a landing via Inertia', function () {
     $this->get('/')
         ->assertOk()
         ->assertInertia(fn (AssertableInertia $page) => $page
-            ->component('welcome')
+            ->component('landing')
             ->has('appName')
+            ->where('loginUrl', route('login'))
             ->where('auth.user', null)
         );
 });

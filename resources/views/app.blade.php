@@ -7,19 +7,12 @@
 
     <title inertia>{{ config('app.name') }}</title>
 
-    {{-- Aplica o color scheme antes da primeira pintura, evitando flash de tema. --}}
+    {{-- ShadowCase é dark-only: fixa o color scheme antes da primeira pintura. --}}
     <script>
-        (function () {
-            try {
-                var mode = localStorage.getItem('mui-mode') || 'dark';
-                if (mode === 'system') {
-                    mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                }
-                document.documentElement.setAttribute('data-mui-color-scheme', mode);
-            } catch (e) {}
-        })();
+        document.documentElement.setAttribute('data-mui-color-scheme', 'dark');
     </script>
 
+    @fonts
     @vite(['resources/css/app.css', 'resources/js/app.tsx'])
     @inertiaHead
 </head>
