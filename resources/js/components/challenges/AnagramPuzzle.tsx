@@ -71,6 +71,26 @@ export default function AnagramPuzzle({
         }
     };
 
+    const removeAt = (slotIndex: number) => {
+        if (processing || justFailed) return;
+
+        const letter = placed[slotIndex];
+        if (!letter) return;
+
+        const letterIndex = available.findIndex(
+            (isAvailable, index) => !isAvailable && word.scrambled[index] === letter,
+        );
+        if (letterIndex === -1) return;
+
+        const nextPlaced = [...placed];
+        nextPlaced[slotIndex] = null;
+        const nextAvailable = [...available];
+        nextAvailable[letterIndex] = true;
+
+        setPlaced(nextPlaced);
+        setAvailable(nextAvailable);
+    };
+
     const slotColor = (letter: string | null) => {
         if (justFailed && letter) return red[400];
 
@@ -139,8 +159,10 @@ export default function AnagramPuzzle({
                 </Typography>
                 <Box sx={{ display: 'flex', gap: 1 }}>
                     {placed.map((letter, index) => (
-                        <Box
+                        <ButtonBase
                             key={index}
+                            onClick={() => removeAt(index)}
+                            disabled={!letter || processing || justFailed}
                             sx={{
                                 width: 40,
                                 height: 40,
@@ -154,14 +176,23 @@ export default function AnagramPuzzle({
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 transition: 'all 200ms',
+                                '&:hover': !letter
+                                    ? undefined
+                                    : {
+                                          borderColor: amber[500],
+                                          bgcolor: alpha(amber[900], 0.2),
+                                      },
                             }}
                         >
                             <Typography sx={display(18, slotColor(letter))}>
                                 {letter ?? '_'}
                             </Typography>
-                        </Box>
+                        </ButtonBase>
                     ))}
                 </Box>
+                <Typography sx={{ ...mono(7, alpha(amber[700], 0.45)), mt: 1.5 }}>
+                    Clique em uma letra da resposta para remover.
+                </Typography>
             </Box>
 
             {justFailed && (
